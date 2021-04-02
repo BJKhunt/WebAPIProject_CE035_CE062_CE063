@@ -1,0 +1,68 @@
+﻿
+<link rel="stylesheet" type="text/css" href="https://code.highcharts.com/css/stocktools/gui.css">
+<link rel="stylesheet" type="text/css" href="https://code.highcharts.com/css/annotations/popup.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="https://code.highcharts.com/stock/highstock.js"></script>
+<script src="https://code.highcharts.com/modules/timeline.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+<script src="https://code.highcharts.com/modules/accessibility.js"></script>
+<script type="text/javascript">
+    function formatYAxis() {
+        return (this.value > 0 ? ' + ' : '') + this.value + '%';
+    }
+</script>
+
+@using Highsoft.Web.Mvc.Stocks
+@using Highsoft.Web.Mvc.Stocks.Rendering
+
+@{ var chartOptions =
+             new Highstock
+             {
+                 RangeSelector = new RangeSelector
+                 {
+                     Selected = 1
+                 },
+                 Title = new Title
+                 {
+                     Text = "Apple Stock Price"
+                 },
+                 Series = new List<Series>
+                     {
+                new CandleStickSeries
+                {
+                   Data = ViewBag.AppleData as List<CandleStickSeriesData>,
+                   Name = "Apple Stock Price",
+                   TurboThreshold = 10000,
+                   Shadow = new Shadow
+                   {
+                       Enabled = true,
+
+                   },
+                   Tooltip = new CandleStickSeriesTooltip
+                   {
+                       ValueDecimals = 2
+                   }
+                }
+                                             },
+                 Navigator = new Navigator()
+                 {
+                     Series = new LineSeries
+                     {
+                         Data = ViewBag.NavigatorData as List<LineSeriesData>
+                     }
+                 }
+             };
+
+    chartOptions.ID = "chart";
+    var renderer = new HighstockRenderer(chartOptions);
+}
+
+<h1>StockDetails</h1>
+
+
+@Html.Raw(renderer.RenderHtml())
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -1,0 +1,79 @@
+﻿@model StockWatchClient.Models.StockViewModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>StockDetails</h1>
+
+<div>
+    <hr />
+    <hr/>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-9">
+                <h3><strong>@Model.Symbol - @Model.Name</strong></h3>
+                <h4>@Model.Ceo</h4>
+                <h4>@Model.Hq_address</h4>
+                <h4>@Model.Country.ToUpper()</h4>
+            </div>
+            <div class="col-sm-3">
+                @if ((bool)ViewData["isImage"])
+                {
+                    <img src="@Url.Content(Model.Logo)" alt="Image" align="right">
+                }
+            </div>
+        </div>
+        <hr />
+        <div class="row">
+            <div class="col-sm-12">
+                <h5>Marketcap : @Model.Marketcap</h5>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <h5>Employees : @Model.Employees</h5>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <h5>Listed on @Model.Exchange in @Model.Listdate</h5>
+            </div>
+        </div>
+        <hr />
+        <div class="row">
+            <div class="col-sm-12">
+                <h5>@Model.Description</h5>
+            </div>
+        </div>
+        <hr/>
+        <div class="row">
+            <div class="col-sm-12">
+                <h5>Contact : <span class="label label-primary">@Model.Phone</span></h5>
+            </div>
+        </div>
+        @if((bool)ViewData["isUrl"])
+            {
+                <div class="row">
+                    <div class="col-sm-12">
+                        <h5>WebsiteUrl : <a href="@Model.Url" target="_blank" rel="noopener noreferrer">@Model.Url</a></h5>
+                    </div>
+                </div>
+            }
+        
+        <hr/>
+        <div class="row">
+            <div class="col-sm-6">
+                <h5>Industry : <span class="label label-primary">@Model.Industry</span></h5>
+            </div>
+            <div class="col-sm-6">
+                <h5>Sector : <span class="label label-primary">@Model.Sector</span></h5>
+            </div>
+        </div>
+    </div>
+</div>
+<hr/>
+<div>
+    @Html.ActionLink("Edit", "Edit", new {  id = Model.StockId  }) |
+    <a asp-action="Index">Back to List</a>
+</div>
